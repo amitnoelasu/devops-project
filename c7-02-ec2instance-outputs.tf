@@ -25,10 +25,10 @@
 # }
 
 
-output "for_each_instance_ip" {
-  description = "print instance ip"
-  value = tomap({for az, instance in aws_instance.my_ec2: az => instance.public_dns})
-}
+# output "for_each_instance_ip" {
+#   description = "print instance ip"
+#   value = tomap({for az, instance in aws_instance.my_ec2: az => instance.public_dns})
+# }
 # output "legacy_splat_instance_publicdns" {
 #   description = "legacy splat operatorr"
 #   value = aws_instance.my_ec2.*.public_dns
@@ -62,7 +62,7 @@ output "public_instance_id_public_ip" {
 
 output "private_instance_ids" {
   description = "The ID of the public/bastion instance"
-  value       = [for ec2private in module.module.ec2-private: ec2private.id]
+  value       = [for ec2private in module.ec2-private: ec2private.id]
 }
 
 // poublic ips wont exist for ec2 in private subnet
@@ -73,5 +73,5 @@ output "private_instance_ids" {
 
 output "private_instance_privateips" {
   description = "The ID of the public/bastion instance"
-  value       = [for ec2private in module.module.ec2-private: ec2private.private_ip]
+  value       = [for ec2private in module.ec2-private: ec2private.private_ip]
 }

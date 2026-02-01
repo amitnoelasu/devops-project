@@ -4,3 +4,6 @@ renanme to terraform.tfvars
 aws_region = "us-xyz-1"
 environment = "dev"
 business_division = "xy"
+my_ip = "x.x.x.x/32"
+ssh_private_key_path = "local path to private key"
+instance_keypair = "key pair name as in AWS console"

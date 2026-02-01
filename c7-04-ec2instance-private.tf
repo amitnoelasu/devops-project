@@ -61,10 +61,12 @@ module "ec2-private" {
 
   instance_type     = each.value.instance_type
   availability_zone = each.value.availability_zone
-  vpc_security_group_ids = [module.private_security_group_id]
+  vpc_security_group_ids = [module.private-sg.security_group_id]
   subnet_id         = each.value.subnet_id
   user_data = file("${path.module}/app1-install.sh")
 
+
+  key_name = var.instance_keypair
   enable_volume_tags = false
 #   root_block_device  = try(each.value.root_block_device, null)
 

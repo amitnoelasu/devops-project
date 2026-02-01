@@ -27,13 +27,13 @@ module "ec2-public" {
   instance_type          = var.instance_type_map["dev"] # used to set core count below
   availability_zone      = element(module.vpc.azs, 0)
 #   subnet_id              = element(module.vpc.public_subnets, 0)
-  
-  vpc_security_group_ids = [module.public_bastion_security_group_id]
+  subnet_id = module.vpc.public_subnets[0]
+  vpc_security_group_ids = [module.public-bastion-sg.security_group_id]
 #   placement_group        = aws_placement_group.web.id
 #   create_eip             = true
 #   disable_api_stop       = false
   tags = local.common_tags
-
+  key_name = var.instance_keypair
 #   create_iam_instance_profile = true
 #   iam_role_description        = "IAM role for EC2 instance"
 #   iam_role_policies = {

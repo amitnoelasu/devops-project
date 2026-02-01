@@ -5,11 +5,11 @@ module "private-sg" {
   name = "private-sg"
   description = "security group with SSH and HTTP port open for everybody (ipv4 CIDR), egress ports are all world open"
 
-  vpc_id = module.vpc_id
+  vpc_id = module.vpc.vpc_id
 
   # ingress rules
-  ingress_cidr_blocks = [module.vpc_cidr_block]
-  ingress_rules       = ["http-80-tcp", "ssh-22-tcp"]
+  ingress_cidr_blocks = [module.vpc.vpc_cidr_block]
+  ingress_rules       = ["http-80-tcp", "ssh-tcp"]
   # egress rules
   egress_rules = ["all-all"]
   tags = local.common_tags
