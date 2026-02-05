@@ -27,3 +27,13 @@ variable "instance_keypair" {
   type        = string
   description = "Existing EC2 key pair name in AWS (us-east-1)"
 }
+
+variable "ssl-certificate-arn" {
+  type = string
+  description = "AWS ARN for TLS certificate issued by ACM"
+}
+
+variable "domain-name" {
+  type = string
+  description = "domain name for api"
+}

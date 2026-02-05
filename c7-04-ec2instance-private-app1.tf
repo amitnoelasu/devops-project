@@ -51,13 +51,13 @@ locals {
   }
 }
 
-module "ec2-private" {
+module "ec2-private-app1" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "6.2.0"
 
   for_each = local.multiple_instances
 
-  name = "${local.name}-multi-${each.key}"
+  name = "${local.name}-app1-multi-${each.key}"
 
   instance_type     = each.value.instance_type
   availability_zone = each.value.availability_zone

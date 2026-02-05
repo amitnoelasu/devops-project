@@ -60,9 +60,14 @@ output "public_instance_id_public_ip" {
 
 
 
-output "private_instance_ids" {
+output "private_instance_ids_app1" {
   description = "The ID of the public/bastion instance"
-  value       = [for ec2private in module.ec2-private: ec2private.id]
+  value       = [for ec2private in module.ec2-private-app1: ec2private.id]
+}
+
+output "private_instance_ids_app2" {
+  description = "The ID of the public/bastion instance"
+  value       = [for ec2private in module.ec2-private-app2: ec2private.id]
 }
 
 // poublic ips wont exist for ec2 in private subnet
@@ -71,7 +76,12 @@ output "private_instance_ids" {
 #   value       = [for ec2private in module.module.ec2-private: ec2private.public_ip]
 # }
 
-output "private_instance_privateips" {
+output "private_instance_privateips_app1" {
   description = "The ID of the public/bastion instance"
-  value       = [for ec2private in module.ec2-private: ec2private.private_ip]
+  value       = [for ec2private in module.ec2-private-app1: ec2private.private_ip]
+}
+
+output "private_instance_privateips_app2" {
+  description = "The ID of the public/bastion instance"
+  value       = [for ec2private in module.ec2-private-app2: ec2private.private_ip]
 }

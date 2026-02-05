@@ -44,3 +44,9 @@ data "aws_ec2_instance_type_offerings" "valid-azs" {
   }
   location_type = "availability-zone"
 }
+
+data "aws_acm_certificate" "CA" {
+  domain   = var.domain-name
+  statuses = ["ISSUED"]
+}
+
