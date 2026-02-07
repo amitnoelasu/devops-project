@@ -74,11 +74,6 @@ module "alb" {
 
         app2-rule = {
           priority = 2
-          # actions = [{
-          #   forward = {
-          #       target_group_key = "mytgt2"
-          #   }
-          # }]
           actions = [{
             weighted_forward = {
               target_groups = [
@@ -97,6 +92,30 @@ module "alb" {
           conditions = [{
             path_pattern = {
               values = ["/app2*"]
+            }
+          }]
+        }
+
+        app3-rule = {
+          priority = 3
+          actions = [{
+            weighted_forward = {
+              target_groups = [
+                {
+                  target_group_key = "mytg3"
+                  weight           = 1
+                }
+              ]
+              stickiness = {
+                enabled  = true
+                duration = 3600
+              }
+            }
+          }]
+
+          conditions = [{
+            path_pattern = {
+              values = ["/*"]
             }
           }]
         }
@@ -189,6 +208,45 @@ module "alb" {
     } // end of target group 2
 
 
+    mytg3 = {
+        // do not create own target group attachment. We will create manually using resource block
+      create_attachment = false
+      //
+      name_prefix                       = "mytg3-"
+      protocol                          = "HTTP"
+      port                              = 8080
+      target_type                       = "instance"
+      deregistration_delay              = 10
+      load_balancing_algorithm_type     = "weighted_random"
+      load_balancing_anomaly_mitigation = "on"
+      load_balancing_cross_zone_enabled = "use_load_balancer_configuration"
+
+      target_group_health = {
+        dns_failover = {
+          minimum_healthy_targets_count = 2
+        }
+        unhealthy_state_routing = {
+          minimum_healthy_targets_percentage = 50
+        }
+      }
+
+      health_check = {
+        enabled             = true
+        interval            = 30
+        path                = "/login"
+        port                = "traffic-port"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+        protocol            = "HTTP"
+        matcher             = "200-399"
+      }
+
+      protocol_version = "HTTP1"
+    #   target_id        = resource.mytg1.id
+      tags = local.common_tags
+    } // end of target group 3
+
   } // end of target groups
 
   tags = local.common_tags
@@ -214,7 +272,7 @@ resource "aws_lb_target_group_attachment" "mytg1" { // for app1
 # }
 
 
-resource "aws_lb_target_group_attachment" "mytg2" { // for app1
+resource "aws_lb_target_group_attachment" "mytg2" { // for app2
   # covert a list of instance objects to a map with instance ID as the key, and an instance
   # object as the value.
   for_each = {
@@ -227,3 +285,15 @@ resource "aws_lb_target_group_attachment" "mytg2" { // for app1
   port             = 80
 }
 
+resource "aws_lb_target_group_attachment" "mytg3" { // for app3
+  # covert a list of instance objects to a map with instance ID as the key, and an instance
+  # object as the value.
+  for_each = {
+    for k, v in module.ec2-private-app3 :
+    k => v
+  }
+
+  target_group_arn = module.alb.target_groups["mytg3"].arn
+  target_id        = each.value.id
+  port             = 8080
+}

@@ -34,6 +34,7 @@ module "ec2-public" {
 #   disable_api_stop       = false
   tags = local.common_tags
   key_name = var.instance_keypair
+  user_data = file("jumpbox-install.sh")
 #   create_iam_instance_profile = true
 #   iam_role_description        = "IAM role for EC2 instance"
 #   iam_role_policies = {

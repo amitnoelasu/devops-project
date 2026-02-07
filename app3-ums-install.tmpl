@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+
+sudo dnf -y update
+sudo dnf -y install java-11-amazon-corretto-headless wget
+
+java -version
+
+sudo mkdir -p /home/ec2-user/app3-usermgmt
+sudo chown -R ec2-user:ec2-user /home/ec2-user/app3-usermgmt
+cd /home/ec2-user/app3-usermgmt
+
+wget -O usermgmt-webapp.war \
+  https://github.com/stacksimplify/temp1/releases/download/1.0.0/usermgmt-webapp.war
+
+export DB_HOSTNAME=${rds_db_endpoint}
+export DB_PORT=3306
+export DB_NAME=webappdb
+export DB_USERNAME=dbadmin
+export DB_PASSWORD=dbpassword11
+
+nohup java -jar /home/ec2-user/app3-usermgmt/usermgmt-webapp.war \
+  > /home/ec2-user/app3-usermgmt/ums-start.log 2>&1 &
