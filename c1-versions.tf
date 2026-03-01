@@ -12,6 +12,11 @@ terraform {
       version = "~> 3.2.4"
     }
 
+    random = {
+      source = "hashicorp/random"
+      version = "~> 3.8.1"
+    }
+
   }
 }
 
@@ -24,3 +29,7 @@ provider "null" {
   # Configuration options
 }
 
+// for notifications ASG
+resource "random_pet" "this" {
+  length = 2
+}
