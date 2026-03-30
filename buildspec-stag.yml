@@ -8,6 +8,7 @@ env:
   parameter-store:
     AWS_ACCESS_KEY_ID: "/CodeBuild/MY_AWS_ACCESS_KEY_ID"
     AWS_SECRET_ACCESS_KEY: "/CodeBuild/MY_AWS_SECRET_ACCESS_KEY"
+    AWS_EC2_PRIVATE_KEY: "/CodeBuild/EC2_private_key"
 
 phases:
   install:
@@ -27,6 +28,11 @@ phases:
     on-failure: ABORT   
     commands:
     # Project-1: AWS VPC, ASG, ALB, ACM, Security Groups and SNS 
+      - cd "$CODEBUILD_SRC_DIR"
+      - mkdir -p private-key
+      - cd private-key
+      - echo "$AWS_EC2_PRIVATE_KEY" > terraform-pk.pem
+      - chmod 400 terraform-pk.pem
       - cd "$CODEBUILD_SRC_DIR"
       - ls -lrt "$CODEBUILD_SRC_DIR"
       - terraform --version
