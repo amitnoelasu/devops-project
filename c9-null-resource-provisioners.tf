@@ -29,12 +29,13 @@ resource "null_resource" "cluster" {
     ]
   }
 
-  provisioner "local-exec" {
-    command = "echo vpc created on `date` and VPC ID: ${module.vpc.vpc_id} >> creation-time-vpcid.txt"
-    working_dir = "./local-exec-output-files/"
-    # on_failure = continue
-    # when = destroy
-  }
+# commented because it will run in temp container
+  # provisioner "local-exec" {
+  #   command = "echo vpc created on `date` and VPC ID: ${module.vpc.vpc_id} >> creation-time-vpcid.txt"
+  #   working_dir = "./local-exec-output-files/"
+  #   # on_failure = continue
+  #   # when = destroy
+  # }
 
   # // destroy time provisioners - during terraform destroy
   # provisioner "local-exec" {

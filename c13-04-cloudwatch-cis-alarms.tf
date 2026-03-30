@@ -1,7 +1,7 @@
 //need to create log group first to use the module
 
 resource "aws_cloudwatch_log_group" "cis-log-group" {
-  name = "cis-log-group-${random_pet.this.id}"
+  name = "${local.name}-cis-log-group-${random_pet.this.id}"
 
   tags = local.common_tags
 }

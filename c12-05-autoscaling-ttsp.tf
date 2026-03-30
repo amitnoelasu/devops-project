@@ -3,7 +3,7 @@
 
 
 resource "aws_autoscaling_policy" "avg_cpu_greater_than_xx" {
-  name                   = "avg_cpu_greater_than_xx"
+  name                   = "${local.name}-avg_cpu_greater_than_xx"
   policy_type = "TargetTrackingScaling"
   estimated_instance_warmup = 180
   autoscaling_group_name = aws_autoscaling_group.asg.name
@@ -18,7 +18,7 @@ resource "aws_autoscaling_policy" "avg_cpu_greater_than_xx" {
 
 resource "aws_autoscaling_policy" "avg_requests_greater_than_xx" {
   depends_on = [module.alb]
-  name                   = "avg_requests_greater_than_xx"
+  name                   = "${local.name}-avg_requests_greater_than_xx"
   policy_type = "TargetTrackingScaling"
   estimated_instance_warmup = 180
   autoscaling_group_name = aws_autoscaling_group.asg.name

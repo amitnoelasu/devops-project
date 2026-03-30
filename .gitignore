@@ -45,3 +45,6 @@ terraform.rc
 
 private-key/
 local-exec-output-files/
+
+aws-keys.txt
+*.txt

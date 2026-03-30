@@ -1,5 +1,5 @@
 resource "aws_launch_template" "my_launch_template" {
-  name = "my_launch_template"
+  name = "${local.name}-my_launch_template"
   description = "my launch template"
 
   block_device_mappings {
@@ -44,7 +44,6 @@ resource "aws_launch_template" "my_launch_template" {
 
   tag_specifications {
     resource_type = "instance"
-
     tags = local.common_tags
   }
 

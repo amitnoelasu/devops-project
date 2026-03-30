@@ -4,7 +4,7 @@
 # }
 
 resource "aws_autoscaling_group" "asg" {
-  name                      = "asg"
+  name                      = "${local.name}-asg"
   max_size                  = 5
   min_size                  = 2
   health_check_grace_period = 300

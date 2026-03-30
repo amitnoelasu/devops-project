@@ -1,7 +1,7 @@
 // SNS topic
 
 resource "aws_sns_topic" "myasg_sns_topic" {
-  name = "myasg_sns_topic-${random_pet.this.id}"
+  name = "${local.name}-myasg_sns_topic-${random_pet.this.id}"
 }
 
 // sns subscription

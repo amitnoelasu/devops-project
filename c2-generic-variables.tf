@@ -37,3 +37,13 @@ variable "domain-name" {
   type = string
   description = "domain name for api"
 }
+
+# variable "my-access-key" {
+#   type = string
+#   description = "access key for AWS CLI"
+# }
+
+# variable "my-secret-key" {
+#   type = string
+#   description = "secret key for AWS CLI"
+# }
